@@ -141,12 +141,16 @@ func (b *box) RemoveAllCircles() error {
 	}
 
 	found := false
-	for i, shape := range b.shapes {
+	i := 0
+	for i < len(b.shapes) {
+		shape := b.shapes[i]
 		// Сравниваем имя типа элемента с "Circle", в случае положительного результата
 		// удаляем из массива
 		if reflect.TypeOf(shape).Name() == "Circle" {
 			found = true
 			b.shapes = append(b.shapes[:i], b.shapes[i+1:]...)
+		} else {
+			i++
 		}
 	}
 
