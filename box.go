@@ -6,6 +6,12 @@ import (
 	"reflect"
 )
 
+var (
+	errorAdd    = errors.New("figure could not be added, box capacity exceeded")
+	errorIndex  = errors.New("figure at index does not exist or index is out of capacity")
+	errorCirlce = errors.New("circles not found")
+)
+
 // box contains list of shapes and able to perform operations on them
 
 // коробка содержит список фигур и возможность выполнять над ними операции
@@ -31,7 +37,7 @@ func NewBox(shapesCapacity int) *box {
 // если она выходит за пределы диапазона shapeCapacity.
 
 func (b *box) AddShape(shape Shape) error {
-	err := errors.New("figure could not be added, box capacity exceeded")
+	err := fmt.Errorf("%w", errorAdd)
 	if len(b.shapes) == b.shapesCapacity {
 		err = fmt.Errorf("%w", err)
 		return err
@@ -48,7 +54,7 @@ func (b *box) AddShape(shape Shape) error {
 // то он возвращает ошибку
 
 func (b *box) GetByIndex(i int) (Shape, error) {
-	err := errors.New("figure at index does not exist or index is out of capacity")
+	err := fmt.Errorf("%w", errorIndex)
 	if i >= len(b.shapes) {
 		err = fmt.Errorf("%w", err)
 		return nil, err
@@ -64,7 +70,7 @@ func (b *box) GetByIndex(i int) (Shape, error) {
 // Если форма по индексу не существует или индекс вышел за пределы диапазона,
 // то он возвращает ошибку
 func (b *box) ExtractByIndex(i int) (Shape, error) {
-	err := errors.New("figure at index does not exist or index is out of capacity")
+	err := fmt.Errorf("%w", errorIndex)
 	if i >= len(b.shapes) {
 		err = fmt.Errorf("%w", err)
 		return nil, err
@@ -81,7 +87,7 @@ func (b *box) ExtractByIndex(i int) (Shape, error) {
 // Если форма по индексу не существует или индекс вышел за пределы диапазона,
 // то он возвращает ошибку
 func (b *box) ReplaceByIndex(i int, shape Shape) (Shape, error) {
-	err := errors.New("figure at index does not exist or index is out of capacity")
+	err := fmt.Errorf("%w", errorIndex)
 	if i >= len(b.shapes) {
 		err = fmt.Errorf("%w", err)
 		return nil, err
@@ -148,6 +154,6 @@ func (b *box) RemoveAllCircles() error {
 		return nil
 	}
 
-	err := errors.New("circles not found")
+	err := fmt.Errorf("%w", errorCirlce)
 	return err
 }
